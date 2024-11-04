@@ -1,0 +1,11 @@
+# Virtual environment.
+.venv
+
+# IDE - VSCode
+.vscode/*
+
+# Python
+__pycache__/
+
+# Env
+.env
