@@ -58,8 +58,10 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
 
 ## Ejecución.
 
-Para ejecutar el proyecto, puedes ejecutar el siguiente comando en tu terminal estando posicionados en el directorio `app`:
+Para ejecutar el proyecto, puedes ejecutar el siguiente comando en tu terminal:
 
 ```bash
-python .\main.py
+uvicorn app.main:app --reload --host=localhost --port=8000
 ```
+
+Esto iniciará el servidor de desarrollo en la dirección `http://localhost:8000`. Y podrás acceder a la documentación de la API en la dirección `http://localhost:8000/docs`.
