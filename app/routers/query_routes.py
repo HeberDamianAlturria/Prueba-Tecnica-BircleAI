@@ -1,7 +1,7 @@
 from app.models.llama_index_singleton import provide_query_engine
 from app.DTOs.query_response_dto import QueryResponseDTO
 from llama_index.core.query_engine import BaseQueryEngine
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
 query_router = APIRouter()
 
@@ -17,8 +17,12 @@ query_router = APIRouter()
     response_description="The response contains the results of the query.",
     response_model=QueryResponseDTO,
     responses={
-        400: {"description": "Query is required and cannot be empty."},
-        500: {"description": "An error occurred while processing the query."},
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "Query is required and cannot be empty."
+        },
+        status.HTTP_500_INTERNAL_SERVER_ERROR: {
+            "description": "An error occurred while processing the query."
+        },
     },
 )
 def handle_query(
@@ -41,7 +45,8 @@ def handle_query(
     """
     if not q.strip():
         raise HTTPException(
-            status_code=400, detail="Query is required and cannot be empty."
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Query is required and cannot be empty.",
         )
 
     try:
@@ -49,5 +54,6 @@ def handle_query(
         return QueryResponseDTO(response=result.response)
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail="An error occurred while processing your query."
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while processing your query.",
         )
