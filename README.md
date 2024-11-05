@@ -20,6 +20,8 @@ Para la realización de este proyecto, se tomaron las siguientes decisiones:
 
 3. Se realizarán tests unitarios para comprobar el correcto funcionamiento de las funciones más importantes del proyecto. Para ello, se utilizará `pytest`.
 
+4. Se configuraron los CORS para permitir el acceso a la API desde cualquier origen. De esa manera, se puede acceder a la API desde cualquier frontend sin problemas.
+
 ## Crear una API Key en Groq.
 
 Para poder crear una API Key en Groq, debemos seguir los siguientes pasos:
