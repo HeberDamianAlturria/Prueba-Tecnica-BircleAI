@@ -1,7 +1,9 @@
 from llama_index.core import VectorStoreIndex, Settings, SimpleDirectoryReader
+from llama_index.core.query_engine import BaseQueryEngine
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 from llama_index.readers.file import FlatReader
+
 import os
 
 
@@ -37,7 +39,7 @@ class LlamaIndexSingleton:
 
         self._index = VectorStoreIndex.from_documents(documents, show_progress=True)
 
-    def get_query_engine(self):
+    def get_query_engine(self) -> BaseQueryEngine:
         if self._index is None:
             raise RuntimeError("Index is not initialized.")
         return self._index.as_query_engine()
@@ -47,5 +49,5 @@ class LlamaIndexSingleton:
             self._index = None
 
 
-def provide_query_engine():
+def provide_query_engine() -> BaseQueryEngine:
     return LlamaIndexSingleton().get_query_engine()

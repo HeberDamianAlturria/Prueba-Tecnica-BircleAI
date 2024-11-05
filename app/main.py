@@ -12,7 +12,7 @@ async def app_lifespan(app: FastAPI):
     LlamaIndexSingleton().close()
 
 
-app = FastAPI(lifespan=app_lifespan)
+app = FastAPI(title="BircleAI Technical Test", lifespan=app_lifespan)
 
 # Add CORS middleware to allow requests from any origin.
 app.add_middleware(
