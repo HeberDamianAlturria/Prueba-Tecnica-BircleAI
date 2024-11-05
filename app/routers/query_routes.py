@@ -1,5 +1,9 @@
-from app.models.llama_index_singleton import provide_query_engine
+from app.constants.error_messages import (
+    EMPTY_QUERY_ERROR_MESSAGE,
+    QUERY_PROCESSING_FAILURE_MESSAGE,
+)
 from app.DTOs.query_response_dto import QueryResponseDTO
+from app.models.llama_index_singleton import provide_query_engine
 from llama_index.core.query_engine import BaseQueryEngine
 from fastapi import APIRouter, Depends, HTTPException, status
 
@@ -19,10 +23,10 @@ query_router = APIRouter()
     response_model=QueryResponseDTO,
     responses={
         status.HTTP_400_BAD_REQUEST: {
-            "description": "Query is required and cannot be empty."
+            "description": EMPTY_QUERY_ERROR_MESSAGE
         },
         status.HTTP_500_INTERNAL_SERVER_ERROR: {
-            "description": "An error occurred while processing the query."
+            "description": QUERY_PROCESSING_FAILURE_MESSAGE
         },
     },
 )
@@ -47,7 +51,7 @@ def handle_query(
     if not q.strip():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Query is required and cannot be empty.",
+            detail=EMPTY_QUERY_ERROR_MESSAGE,
         )
 
     try:
@@ -56,5 +60,5 @@ def handle_query(
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while processing your query.",
+            detail=QUERY_PROCESSING_FAILURE_MESSAGE,
         )
