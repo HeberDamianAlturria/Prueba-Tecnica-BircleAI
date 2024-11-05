@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from app.routers.query_routes import query_router
-from app.models.llama_index_singleton import provide_query_engine
+from app.services.llamaindex_service import provide_query_engine
 from app.DTOs.query_response_dto import QueryResponseDTO
 from app.constants.error_messages import (
     EMPTY_QUERY_ERROR_MESSAGE,

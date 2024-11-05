@@ -1,4 +1,4 @@
-from app.constants.llama_index_constants import GROQ_MODEL, EMBEDDING_MODEL, DATA_PATH
+from app.constants.llamaindex_constants import GROQ_MODEL, EMBEDDING_MODEL, DATA_PATH
 from llama_index.core import VectorStoreIndex, Settings, SimpleDirectoryReader, Document
 from llama_index.core.query_engine import BaseQueryEngine
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -92,7 +92,7 @@ def provide_query_engine() -> BaseQueryEngine:
     return _LlamaIndexSingleton().get_query_engine()
 
 
-def initilize_llama_index():
+def initilize_llamaindex():
     """
     Initialize the Llama index singleton instance and index the documents.
     """

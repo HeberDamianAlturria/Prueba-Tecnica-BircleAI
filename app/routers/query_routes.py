@@ -3,7 +3,7 @@ from app.constants.error_messages import (
     QUERY_PROCESSING_FAILURE_MESSAGE,
 )
 from app.DTOs.query_response_dto import QueryResponseDTO
-from app.models.llama_index_singleton import provide_query_engine
+from app.services.llamaindex_service import provide_query_engine
 from llama_index.core.query_engine import BaseQueryEngine
 from fastapi import APIRouter, Depends, HTTPException, status
 

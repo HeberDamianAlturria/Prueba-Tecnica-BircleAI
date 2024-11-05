@@ -1,4 +1,4 @@
-from app.models.llama_index_singleton import initilize_llama_index
+from app.services.llamaindex_service import initilize_llamaindex
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
@@ -19,5 +19,5 @@ async def app_lifespan(app: FastAPI):
     Yields:
         None: Control is yielded back to the FastAPI application until it shuts down.
     """
-    initilize_llama_index()
+    initilize_llamaindex()
     yield
