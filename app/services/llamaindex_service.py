@@ -67,9 +67,7 @@ class _LlamaIndexSingleton:
         Settings.embed_model = hugginface_embedding
 
     def initialize(self):
-        """
-        Initialize the Llama index by configuring the LLM, embedding, and loading documents.
-        """
+        """Initialize the Llama index by configuring the LLM, embedding, and loading documents."""
         self._configure_llm()
         self._configure_embedding()
         documents = self._get_documents()
@@ -99,7 +97,5 @@ def provide_query_engine() -> BaseQueryEngine:
 
 
 def initilize_llamaindex():
-    """
-    Initialize the Llama index singleton instance and index the documents.
-    """
+    """Initialize the Llama index singleton instance and index the documents."""
     _LlamaIndexSingleton().initialize()
