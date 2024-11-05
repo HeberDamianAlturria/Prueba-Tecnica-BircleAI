@@ -1,4 +1,10 @@
-from app.constants.llamaindex_constants import GROQ_MODEL, EMBEDDING_MODEL, DATA_PATH
+from app.constants.llamaindex_constants import (
+    GROQ_API_KEY_ENV_VAR,
+    GROQ_API_KEY_ERROR,
+    GROQ_MODEL,
+    EMBEDDING_MODEL,
+    DATA_PATH,
+)
 from llama_index.core import VectorStoreIndex, Settings, SimpleDirectoryReader, Document
 from llama_index.core.query_engine import BaseQueryEngine
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -43,12 +49,12 @@ class _LlamaIndexSingleton:
         in the environment variables.
 
         Raises:
-            RuntimeError: If the GROQ_API_KEY is not set in the environment variables.
+            RuntimeError: If the API key is not set in the environment variables.
         """
-        api_key = os.getenv("GROQ_API_KEY")
+        api_key = os.getenv(GROQ_API_KEY_ENV_VAR)
 
-        if api_key is None:
-            raise RuntimeError("GROQ_API_KEY is not set in the environment variables.")
+        if not api_key:
+            raise RuntimeError(GROQ_API_KEY_ERROR)
 
         groq_llm = Groq(model=GROQ_MODEL, api_key=api_key)
         Settings.llm = groq_llm
