@@ -10,11 +10,14 @@ from app.constants.llamaindex_constants import GROQ_API_KEY_ENV_VAR, GROQ_API_KE
 from llama_index.llms.groq import Groq
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
+# Constants for mocks.
+MOCKED_QUERY_ENGINE = "Mocked query engine."
+
 
 # Mocked VectorStoreIndex class. This is used to mock the VectorStoreIndex.from_documents method.
 class MockedVectorStoreIndex:
     def as_query_engine(self):
-        return "Mocked query engine."
+        return MOCKED_QUERY_ENGINE
 
 
 @pytest.fixture
@@ -72,7 +75,7 @@ def assert_index_initialized():
 def assert_query_engine(query_engine):
     """Helper function to assert query engine."""
     assert (
-        query_engine == "Mocked query engine."
+        query_engine == MOCKED_QUERY_ENGINE
     ), "Query engine should be the mocked value."
 
 

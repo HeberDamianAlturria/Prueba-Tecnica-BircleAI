@@ -15,6 +15,8 @@ import os
 
 
 class _LlamaIndexSingleton:
+    """Singleton class for managing Llama index."""
+
     _instance = None
     _index = None
 
@@ -67,7 +69,16 @@ class _LlamaIndexSingleton:
         Settings.embed_model = hugginface_embedding
 
     def initialize(self):
-        """Initialize the Llama index by configuring the LLM, embedding, and loading documents."""
+        """Initialize the Llama index by configuring the LLM, embedding, and loading documents.
+
+        This method performs all necessary setup steps to prepare the Llama index
+        for querying, including configuring the language model, the embedding model,
+        and loading documents from the specified directory.
+
+        Raises:
+            RuntimeError: If the API key is not set in the environment variables.
+            ValueError: If no documents are found in the specified directory or if the directory does not exist.
+        """
         self._configure_llm()
         self._configure_embedding()
         documents = self._get_documents()
@@ -97,5 +108,14 @@ def provide_query_engine() -> BaseQueryEngine:
 
 
 def initilize_llamaindex():
-    """Initialize the Llama index singleton instance and index the documents."""
+    """Initialize the Llama index singleton instance and index the documents.
+
+    This function initializes the Llama index by invoking the `initialize` method of the `_LlamaIndexSingleton`
+    class, which handles the setup process for the Llama index, including configuring the LLM and embedding models,
+    and loading the documents.
+
+    Raises:
+        RuntimeError: If the API key is not set in the environment variables (via the `initialize` method).
+        ValueError: If no documents are found in the specified directory or if the directory does not exist (via the `initialize` method).
+    """
     _LlamaIndexSingleton().initialize()
