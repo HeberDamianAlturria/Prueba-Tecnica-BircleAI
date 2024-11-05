@@ -12,9 +12,11 @@ Para poder correr este proyecto es necesario tener instalado en tu computadora:
 
 Para la realización de este proyecto, se tomaron las siguientes decisiones:
 
-1. Se utilizará `Groq` para generar una API Key gratuita y poder utilizar el modelo de `Llama 3` como LLM. Las ventajas de utilizar `Groq` es que nos proporciona LLMs de última generación y nos permite hacer uso de ellos de manera gratuita en la nube con una API Key. Además, los tiempos de respuesta son muy rápidos y la documentación es muy completa.
+1. Se utilizará `Groq` para generar una API Key gratuita y poder utilizar el modelo de `Llama 3` como LLM. Las ventajas de utilizar `Groq` es que nos proporciona LLMs de última generación y nos permite hacer uso de ellos de manera gratuita en la nube con una API Key. Además, los tiempos de respuesta son muy rápidos y la documentación es muy completa. Más adelante se explicará cómo crear una API Key en `Groq` y cómo configurarla en el proyecto.
 
 2. Se utilizará `Hugging Face` para poder hacer un embedding de los textos.
+
+3. Se realizarán tests unitarios para comprobar el correcto funcionamiento de las funciones. Para ello utilizaremos `pytest`.
 
 ## Crear una API Key en Groq.
 
@@ -93,3 +95,13 @@ uvicorn app.main:app --reload --host=localhost --port=8000
 ```
 
 Esto iniciará el servidor de desarrollo en la dirección `http://localhost:8000`. Y podrás acceder a la documentación de la API en la dirección `http://localhost:8000/docs`.
+
+## Tests.
+
+Para correr los tests del proyecto, puedes ejecutar el siguiente comando en tu terminal:
+
+```bash
+pytest
+```
+
+Esto correrá todos los tests del proyecto y mostrará el resultado de los mismos.
