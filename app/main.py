@@ -24,4 +24,4 @@ app.include_router(query_router)
 
 @app.get("/")
 def root():
-    return {"message": "Hello World"}
+    return {"message": "Welcome to the BircleAI Technical Test API!"}

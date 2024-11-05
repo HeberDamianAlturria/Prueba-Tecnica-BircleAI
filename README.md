@@ -130,6 +130,8 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
    "GROQ_API_KEY=API_KEY" | Out-File -FilePath .env -Encoding utf8
    ```
 
+   `Dato importante`: Una vez creado el archivo `.env`, debemos reiniciar la consola para que los cambios surtan efecto. Y, cada vez que modifiquemos el archivo `.env`, debemos reiniciar la consola para que los cambios surtan efecto.
+
 ## Ejecución.
 
 Ya teniendo el proyecto instalado y configurado, podemos proceder a ejecutarlo.
@@ -153,3 +155,5 @@ pytest
 ```
 
 Esto correrá todos los tests del proyecto y mostrará el resultado de los mismos.
+
+No es necesario tener el servidor corriendo para correr los tests, ni tampoco es necesario tener el `.env` configurado. Los tests mockean todo lo necesario para tener aisladamente las pruebas.
