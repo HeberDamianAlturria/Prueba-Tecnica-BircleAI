@@ -15,6 +15,7 @@ query_router = APIRouter()
         "are returned as a response."
     ),
     response_description="The response contains the results of the query.",
+    status_code=status.HTTP_200_OK,
     response_model=QueryResponseDTO,
     responses={
         status.HTTP_400_BAD_REQUEST: {
