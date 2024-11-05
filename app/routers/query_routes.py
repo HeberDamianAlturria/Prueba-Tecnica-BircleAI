@@ -22,9 +22,7 @@ query_router = APIRouter()
     status_code=status.HTTP_200_OK,
     response_model=QueryResponseDTO,
     responses={
-        status.HTTP_400_BAD_REQUEST: {
-            "description": EMPTY_QUERY_ERROR_MESSAGE
-        },
+        status.HTTP_400_BAD_REQUEST: {"description": EMPTY_QUERY_ERROR_MESSAGE},
         status.HTTP_500_INTERNAL_SERVER_ERROR: {
             "description": QUERY_PROCESSING_FAILURE_MESSAGE
         },

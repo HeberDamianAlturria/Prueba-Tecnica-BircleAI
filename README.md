@@ -6,7 +6,9 @@ Este proyecto fue realizado con el fin de cumplir con la prueba técnica de Birc
 
 Para poder correr este proyecto es necesario tener instalado en tu computadora:
 
-- Una versión de Python 3.9 o superior.
+- Una versión de Python 3.9 o superior. Se puede descargar desde la página oficial de [Python](https://www.python.org/downloads/). Personalmente, recomiendo tener instalada la versión 3.12.
+
+- Una versión actual de `pip`.
 
 ## Decisiones tomadas.
 
@@ -14,9 +16,9 @@ Para la realización de este proyecto, se tomaron las siguientes decisiones:
 
 1. Se utilizará `Groq` para generar una API Key gratuita y poder utilizar el modelo de `Llama 3` como LLM. Las ventajas de utilizar `Groq` es que nos proporciona LLMs de última generación y nos permite hacer uso de ellos de manera gratuita en la nube con una API Key. Además, los tiempos de respuesta son muy rápidos y la documentación es muy completa. Más adelante se explicará cómo crear una API Key en `Groq` y cómo configurarla en el proyecto.
 
-2. Se utilizará `Hugging Face` para poder hacer un embedding de los textos.
+2. Se utilizará `Hugging Face` para poder hacer un embedding de los textos que estarán en el directorio `/data`.
 
-3. Se realizarán tests unitarios para comprobar el correcto funcionamiento de las funciones. Para ello utilizaremos `pytest`.
+3. Se realizarán tests unitarios para comprobar el correcto funcionamiento de las funciones más importantes del proyecto. Para ello, se utilizará `pytest`.
 
 ## Crear una API Key en Groq.
 
@@ -42,17 +44,41 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
 
 2. Crear un entorno virtual. Para ello, puedes ejecutar el siguiente comando en tu terminal:
 
-   ```bash
-   python -m venv .venv
-   ```
+   - En Windows:
+
+     ```bash
+     python -m venv .venv
+     ```
+
+   - En Linux o macOS:
+
+     ```bash
+     python3 -m venv .venv
+     ```
 
    En caso de no tener instalado el módulo `venv`, puedes instalarlo ejecutando el siguiente comando:
 
-   ```bash
-   python -m pip install virtualenv
-   ```
+   - En Windows:
 
-   Cabe destacar que el comando anterior creará un entorno virtual en la carpeta `.venv` del proyecto. Este paso solamente debemos hacerlo una vez.
+     ```bash
+     python -m pip install virtualenv
+     ```
+
+   - En Linux:
+
+     ```bash
+     sudo apt install python3-venv
+     ```
+
+     Este comando puede variar dependiendo de la distribución de Linux que estés utilizando. En caso de no funcionar, puedes buscar en la documentación oficial de tu distribución cómo instalar el módulo `venv`.
+
+   - En macOS:
+
+     ```bash
+     python3 -m pip install virtualenv
+     ```
+
+     Cabe destacar que el comando anterior creará un entorno virtual en la carpeta `.venv` del proyecto. Este paso solamente debemos hacerlo una vez.
 
 3. Activar el entorno virtual. Para ello, puedes ejecutar el siguiente comando en tu terminal:
 
@@ -76,7 +102,7 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
    pip install -r requirements.txt
    ```
 
-   Esto instalará todas las dependencias necesarias para correr el proyecto.
+   Esto instalará todas las dependencias necesarias para correr el proyecto. Puede tardar unos minutos en instalar todas las dependencias, dependiendo de la velocidad de conexión a internet.
 
 5. Crear un archivo `.env` en la raíz del proyecto y agregar las siguientes variables de entorno:
 
@@ -86,15 +112,35 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
 
    Donde `API_KEY` es la API Key generada en Groq.
 
+   Es importante que el archivo `.env` creado esté en la raíz del proyecto.
+
+   Podemos crear el archivo `.env` ejecutando el siguiente comando en tu terminal (en la raíz del proyecto):
+
+   ```bash
+   echo GROQ_API_KEY="API_KEY" > .env
+   ```
+
+   Donde `API_KEY` es la API Key generada en Groq. Dicho comando debería funcionar en Windows (cmd únicamente), en Linux y macOS. En powershell no funciona ya que codifica el archivo en `UTF-16` por defecto y ese formato no es compatible con `os.getenv`.
+
+   Para powershell, el comando sería:
+
+   ```bash
+   "GROQ_API_KEY=API_KEY" | Out-File -FilePath .env -Encoding utf8
+   ```
+
 ## Ejecución.
+
+Ya teniendo el proyecto instalado y configurado, podemos proceder a ejecutarlo.
 
 Para ejecutar el proyecto, puedes ejecutar el siguiente comando en tu terminal:
 
 ```bash
-uvicorn app.main:app --reload --host=localhost --port=8000
+uvicorn app.main:app --host=localhost --port=8000
 ```
 
 Esto iniciará el servidor de desarrollo en la dirección `http://localhost:8000`. Y podrás acceder a la documentación de la API en la dirección `http://localhost:8000/docs`.
+
+Cabe mencionar que el servidor antes de empezar tiene que embeber los textos que se encuentran en el directorio `/data`, lo cual puede tardar cuando se inicia el servidor.
 
 ## Tests.
 

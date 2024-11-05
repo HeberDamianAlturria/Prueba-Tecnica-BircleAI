@@ -10,13 +10,11 @@ from llama_index.core.query_engine import BaseQueryEngine
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 from llama_index.readers.file import FlatReader
-
-import os
+from os import getenv
 
 
 class _LlamaIndexSingleton:
     """Singleton class for managing Llama index."""
-
     _instance = None
     _index = None
 
@@ -53,7 +51,7 @@ class _LlamaIndexSingleton:
         Raises:
             RuntimeError: If the API key is not set in the environment variables.
         """
-        api_key = os.getenv(GROQ_API_KEY_ENV_VAR)
+        api_key = getenv(GROQ_API_KEY_ENV_VAR)
 
         if not api_key:
             raise RuntimeError(GROQ_API_KEY_ERROR)
@@ -62,9 +60,7 @@ class _LlamaIndexSingleton:
         Settings.llm = groq_llm
 
     def _configure_embedding(self):
-        """
-        Configure the embedding model using Hugging Face's embedding model.
-        """
+        """Configure the embedding model using Hugging Face's embedding model."""
         hugginface_embedding = HuggingFaceEmbedding(model_name=EMBEDDING_MODEL)
         Settings.embed_model = hugginface_embedding
 
