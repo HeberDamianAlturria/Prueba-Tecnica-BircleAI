@@ -9,3 +9,5 @@ __pycache__/
 
 # Env
 .env
+
+.pytest_cache/

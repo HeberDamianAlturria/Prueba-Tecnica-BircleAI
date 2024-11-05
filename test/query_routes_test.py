@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from app.routers.query_routes import query_router
 from app.services.llamaindex_service import provide_query_engine
 from app.DTOs.query_response_dto import QueryResponseDTO
-from app.constants.error_messages import (
+from app.constants.query_error_messages import (
     EMPTY_QUERY_ERROR_MESSAGE,
     QUERY_PROCESSING_FAILURE_MESSAGE,
 )

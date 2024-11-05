@@ -1,4 +1,4 @@
-from app.constants.error_messages import (
+from app.constants.query_error_messages import (
     EMPTY_QUERY_ERROR_MESSAGE,
     QUERY_PROCESSING_FAILURE_MESSAGE,
 )
