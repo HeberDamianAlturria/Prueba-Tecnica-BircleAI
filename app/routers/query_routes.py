@@ -16,6 +16,10 @@ query_router = APIRouter()
     ),
     response_description="The response contains the results of the query.",
     response_model=QueryResponseDTO,
+    responses={
+        400: {"description": "Query is required and cannot be empty."},
+        500: {"description": "An error occurred while processing the query."},
+    },
 )
 def handle_query(
     q: str, query_engine: BaseQueryEngine = Depends(provide_query_engine)
@@ -31,9 +35,19 @@ def handle_query(
         dict: Results of the query.
 
     Raises:
-        HTTPException: 400 if the query string is empty.
+        HTTPException:
+            - 400 if the query string is empty.
+            - 500 if there is an error processing the query.
     """
-    if not q:
-        raise HTTPException(status_code=400, detail="Query is required.")
+    if not q.strip():
+        raise HTTPException(
+            status_code=400, detail="Query is required and cannot be empty."
+        )
 
-    return QueryResponseDTO(response=query_engine.query(q).response)
+    try:
+        result = query_engine.query(q)
+        return QueryResponseDTO(response=result.response)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail="An error occurred while processing your query."
+        )
