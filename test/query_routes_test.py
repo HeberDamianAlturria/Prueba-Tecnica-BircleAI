@@ -18,8 +18,8 @@ client = TestClient(app)
 ERROR_SIMULATION_QUERY = "error"  # Query string that simulates an error condition.
 
 
-# Mock function to generate a response message for a given query.
 def get_mock_message(q: str) -> str:
+    """Generate a mock response message for a given query."""
     return f"Mock response for query: {q}"
 
 
@@ -37,16 +37,16 @@ class MockQueryEngine:
         return MockQueryResponse(response=get_mock_message(q))
 
 
-# Fixture to override the dependency for the query engine with the mock.
 @pytest.fixture
 def override_provide_query_engine():
+    """Fixture to override the provide_query_engine dependency with a mock."""
     app.dependency_overrides[provide_query_engine] = lambda: MockQueryEngine()
     yield
     app.dependency_overrides.clear()
 
 
-# Test successful query handling.
 def test_handle_query_success(override_provide_query_engine):
+    """Test handling of a successful query."""
     q = "test"
     response = client.get(f"/query?q={q}")
     assert response.status_code == status.HTTP_200_OK
@@ -55,15 +55,15 @@ def test_handle_query_success(override_provide_query_engine):
     )
 
 
-# Test handling of empty query string.
 def test_handle_query_empty_query(override_provide_query_engine):
+    """Test handling of an empty query."""
     response = client.get("/query?q=")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {"detail": EMPTY_QUERY_ERROR_MESSAGE}
 
 
-# Test handling of query processing error.
 def test_handle_query_error(override_provide_query_engine):
+    """Test handling of a query processing error."""
     response = client.get(f"/query?q={ERROR_SIMULATION_QUERY}")
     assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
     assert response.json() == {"detail": QUERY_PROCESSING_FAILURE_MESSAGE}
