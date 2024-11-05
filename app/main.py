@@ -1,15 +1,7 @@
 from app.routers.query_routes import query_router
-from app.models.llama_index_singleton import initilize_llama_index
-from contextlib import asynccontextmanager
+from app.lifespan import app_lifespan
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-
-@asynccontextmanager
-async def app_lifespan(app: FastAPI):
-    initilize_llama_index()
-    yield
-
 
 app = FastAPI(title="BircleAI Technical Test", lifespan=app_lifespan)
 
