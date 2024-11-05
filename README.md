@@ -44,7 +44,13 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
    git clone https://github.com/HeberDamianAlturria/Prueba-Tecnica-BircleAI.git
    ```
 
-2. Crear un entorno virtual. Para ello, puedes ejecutar el siguiente comando en tu terminal:
+   Y luego, ingresar a la carpeta del proyecto clonado:
+
+   ```bash
+   cd Prueba-Tecnica-BircleAI
+   ```
+
+2. Estando dentro de la carpeta `Prueba-Tecnica-BircleAI`, debemos crear un entorno virtual. Para ello, puedes ejecutar el siguiente comando en tu terminal:
 
    - En Windows:
 
