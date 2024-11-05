@@ -25,7 +25,7 @@ def handle_query(
 
     Args:
         q (str): Non-empty query string.
-        query_engine(): Dependency-injected query engine.
+        query_engine (BaseQueryEngine): Dependency-injected query engine.
 
     Returns:
         dict: Results of the query.
