@@ -47,6 +47,13 @@ def mock_from_documents():
         yield mock
 
 
+@pytest.fixture
+def mock_env_api_key():
+    """Fixture to set the GROQ_API_KEY environment variable."""
+    with patch.dict(os.environ, {GROQ_API_KEY_ENV_VAR: "test_key"}):
+        yield
+
+
 def assert_llm_configured(mock_settings):
     """Helper function to assert LLM configuration."""
     assert mock_settings.llm is not None, "LLM should be configured."
@@ -88,16 +95,17 @@ def test_llama_index_singleton_instance():
 
 def test_configure_llm_no_api_key(llama_index_instance):
     """Test configure LLM without API key."""
-    with patch.dict(os.environ, {GROQ_API_KEY_ENV_VAR: ""}):
+    with patch.dict(os.environ, {}):
         with pytest.raises(RuntimeError, match=GROQ_API_KEY_ERROR):
             llama_index_instance._configure_llm()
 
 
-def test_configure_llm_with_api_key(llama_index_instance, mock_settings):
+def test_configure_llm_with_api_key(
+    llama_index_instance, mock_settings, mock_env_api_key
+):
     """Test configure LLM with API key."""
-    with patch.dict(os.environ, {GROQ_API_KEY_ENV_VAR: "test_key"}):
-        llama_index_instance._configure_llm()
-        assert_llm_configured(mock_settings)
+    llama_index_instance._configure_llm()
+    assert_llm_configured(mock_settings)
 
 
 def test_configure_embedding(llama_index_instance, mock_settings):
@@ -125,7 +133,7 @@ def test_get_query_engine_index_not_initialized(llama_index_instance):
 
 
 def test_get_query_engine_index_initialized(
-    llama_index_instance, mock_settings, mock_from_documents
+    llama_index_instance, mock_settings, mock_from_documents, mock_env_api_key
 ):
     """Test get query engine if index is initialized."""
     llama_index_instance.initialize()
@@ -134,7 +142,7 @@ def test_get_query_engine_index_initialized(
     assert_query_engine(query_engine)
 
 
-def test_initialize_llamaindex(mock_settings, mock_from_documents):
+def test_initialize_llamaindex(mock_settings, mock_from_documents, mock_env_api_key):
     """Test initialize llama index function."""
     initilize_llamaindex()
 
@@ -149,7 +157,7 @@ def test_provide_query_engine_index_not_initialized(llama_index_instance):
         provide_query_engine()
 
 
-def test_provide_query_engine(mock_settings, mock_from_documents):
+def test_provide_query_engine(mock_settings, mock_from_documents, mock_env_api_key):
     """Test provide query engine."""
     initilize_llamaindex()
 
