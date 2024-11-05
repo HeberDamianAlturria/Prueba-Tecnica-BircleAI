@@ -8,6 +8,26 @@ Para poder correr este proyecto es necesario tener instalado en tu computadora:
 
 - Una versión de Python 3.9 o superior.
 
+## Decisiones tomadas.
+
+Para la realización de este proyecto, se tomaron las siguientes decisiones:
+
+1. Se utilizará `Groq` para generar una API Key gratuita y poder utilizar el modelo de `Llama 3` como LLM. Las ventajas de utilizar `Groq` es que nos proporciona LLMs de última generación y nos permite hacer uso de ellos de manera gratuita en la nube con una API Key. Además, los tiempos de respuesta son muy rápidos y la documentación es muy completa.
+
+2. Se utilizará `Hugging Face` para poder hacer un embedding de los textos.
+
+## Crear una API Key en Groq.
+
+Para poder crear una API Key en Groq, debemos seguir los siguientes pasos:
+
+1. Ingresar a la página de [Groq](https://groq.com/).
+
+2. Seleccionar la opción de `Developers` y luego seleccionar la opción de `FREE API Key`.
+
+3. Registrarse en la página de Groq.
+
+4. Una vez registrado, seleccionar la opción de `Create API Key`. Y copiar la API Key generada.
+
 ## Instalación y configuración.
 
 Los pasos para instalar y configurar el proyecto son los siguientes:
@@ -55,6 +75,14 @@ Los pasos para instalar y configurar el proyecto son los siguientes:
    ```
 
    Esto instalará todas las dependencias necesarias para correr el proyecto.
+
+5. Crear un archivo `.env` en la raíz del proyecto y agregar las siguientes variables de entorno:
+
+   ```env
+   GROQ_API_KEY = "API_KEY"
+   ```
+
+   Donde `API_KEY` es la API Key generada en Groq.
 
 ## Ejecución.
 
