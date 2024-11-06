@@ -9,6 +9,7 @@ from app.constants.query_error_messages import (
     QUERY_PROCESSING_FAILURE_MESSAGE,
 )
 from fastapi import FastAPI, status
+from unittest.mock import patch
 
 # Configure FastAPI application and include the query router.
 app = FastAPI()
@@ -46,6 +47,13 @@ def override_provide_query_engine():
     app.dependency_overrides.clear()
 
 
+@pytest.fixture
+def mock_logger():
+    """Fixture to mock the logger object."""
+    with patch("app.routers.query_routes.logger") as mock_logger:
+        yield mock_logger
+
+
 def test_handle_query_success(override_provide_query_engine):
     """Test handling of a successful query."""
     q = "test"
@@ -65,7 +73,7 @@ def test_handle_query_empty_query(override_provide_query_engine):
     )
 
 
-def test_handle_query_error(override_provide_query_engine):
+def test_handle_query_error(override_provide_query_engine, mock_logger):
     """Test handling of a query processing error."""
     response = client.get(f"/query?q={ERROR_SIMULATION_QUERY}")
     assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -73,3 +81,6 @@ def test_handle_query_error(override_provide_query_engine):
         response.json()
         == HTTPErrorDTO(detail=QUERY_PROCESSING_FAILURE_MESSAGE).model_dump()
     )
+
+    # Verify that the logger.error function was called.
+    mock_logger.error.assert_called()
