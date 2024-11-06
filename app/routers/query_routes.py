@@ -3,9 +3,11 @@ from app.constants.query_error_messages import (
     QUERY_PROCESSING_FAILURE_MESSAGE,
 )
 from app.DTOs.query_response_dto import QueryResponseDTO
+from app.DTOs.http_error_dto import HTTPErrorDTO
 from app.services.llamaindex_service import provide_query_engine
 from llama_index.core.query_engine import BaseQueryEngine
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.logger import logger
 
 query_router = APIRouter()
 
@@ -22,9 +24,13 @@ query_router = APIRouter()
     status_code=status.HTTP_200_OK,
     response_model=QueryResponseDTO,
     responses={
-        status.HTTP_400_BAD_REQUEST: {"description": EMPTY_QUERY_ERROR_MESSAGE},
+        status.HTTP_400_BAD_REQUEST: {
+            "description": EMPTY_QUERY_ERROR_MESSAGE,
+            "model": HTTPErrorDTO,
+        },
         status.HTTP_500_INTERNAL_SERVER_ERROR: {
-            "description": QUERY_PROCESSING_FAILURE_MESSAGE
+            "description": QUERY_PROCESSING_FAILURE_MESSAGE,
+            "model": HTTPErrorDTO,
         },
     },
 )
@@ -56,6 +62,7 @@ def handle_query(
         result = query_engine.query(q)
         return QueryResponseDTO(response=result.response)
     except Exception as e:
+        logger.error(f"Error processing query: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=QUERY_PROCESSING_FAILURE_MESSAGE,
