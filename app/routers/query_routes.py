@@ -14,14 +14,13 @@ query_router = APIRouter()
 
 
 @query_router.get(
-    "/query",
-    summary="Execute a query against the Llama Index",
+    path="/query",
+    summary="Submit a query to the Llama Index for processing",
     description=(
-        "This endpoint allows users to submit a query string to the Llama Index. "
-        "The query is processed using the underlying vector store index, and the results "
-        "are returned as a response."
+        "This endpoint allows users to submit a query string to be processed by the Llama Index engine. "
+        "The query string is passed as a URL parameter 'q'."
     ),
-    response_description="The response contains the results of the query.",
+    response_description="The result of the query is returned in the response.",
     status_code=status.HTTP_200_OK,
     response_model=QueryResponseDTO,
     responses={
@@ -46,7 +45,7 @@ def handle_query(
         query_engine (BaseQueryEngine): Dependency-injected query engine.
 
     Returns:
-        dict: Results of the query.
+        QueryResponseDTO: Results of the query.
 
     Raises:
         HTTPException:
