@@ -5,6 +5,7 @@ from app.constants.llamaindex_constants import (
     EMBEDDING_MODEL,
     DATA_PATH,
     EXTENSION_FILES_ALLOWED,
+    INDEX_NOT_INITIALIZED_ERROR,
 )
 from llama_index.core import VectorStoreIndex, Settings, SimpleDirectoryReader, Document
 from llama_index.core.query_engine import BaseQueryEngine
@@ -25,13 +26,16 @@ class _LlamaIndexSingleton:
         return cls._instance
 
     def _get_documents(self) -> list[Document]:
-        """Load documents from the specified directory using a FlatReader.
+        """Load files from the specified directory and return a list of documents.
+
+        The directory to load files from is specified in the `DATA_PATH` constant.
+        Only files with extensions specified in the `EXTENSION_FILES_ALLOWED` constant are loaded.
 
         Returns:
             list[Document]: A list of documents loaded from the directory.
 
         Raises:
-            ValueError: If no files are found in the directory or if the directory does not exist.
+            ValueError: If no files with required extensions are found in the directory or if the directory does not exist.
         """
         documents = SimpleDirectoryReader(
             input_dir=DATA_PATH,
@@ -88,7 +92,7 @@ class _LlamaIndexSingleton:
             RuntimeError: If the index has not been initialized.
         """
         if self._index is None:
-            raise RuntimeError("Index is not initialized.")
+            raise RuntimeError(INDEX_NOT_INITIALIZED_ERROR)
         return self._index.as_query_engine()
 
 

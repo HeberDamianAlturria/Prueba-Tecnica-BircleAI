@@ -83,4 +83,4 @@ def test_handle_query_error(override_provide_query_engine, mock_logger):
     )
 
     # Verify that the logger.error function was called.
-    mock_logger.error.assert_called()
+    mock_logger.error.assert_called_once()
