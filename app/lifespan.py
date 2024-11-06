@@ -1,16 +1,17 @@
 from app.services.llamaindex_service import initilize_llamaindex
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from dotenv import load_dotenv
 
 
 @asynccontextmanager
 async def app_lifespan(app: FastAPI):
     """
-    Asynchronous context manager that initializes the Llama index at the start
+    Asynchronous context manager that loads .env file and initializes the Llama index at the start
     of the application lifespan and ensures proper resource management.
 
-    This function is called when the FastAPI application starts up. It initializes
-    the Llama index using the `initialize_llama_index` function. Once the setup
+    This function is called when the FastAPI application starts up. It loads the .env file
+    and initializes the Llama index using the `initialize_llama_index` function. Once the setup
     is complete, control is yielded back to the application.
 
     Args:
@@ -19,5 +20,6 @@ async def app_lifespan(app: FastAPI):
     Yields:
         None: Control is yielded back to the FastAPI application until it shuts down.
     """
+    load_dotenv()
     initilize_llamaindex()
     yield
