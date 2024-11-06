@@ -7,6 +7,7 @@ from app.DTOs.http_error_dto import HTTPErrorDTO
 from app.services.llamaindex_service import provide_query_engine
 from llama_index.core.query_engine import BaseQueryEngine
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.logger import logger
 
 # Create a new API router for the query endpoint.
 query_router = APIRouter()
@@ -62,6 +63,7 @@ def handle_query(
         result = query_engine.query(q)
         return QueryResponseDTO(response=result.response)
     except Exception as e:
+        logger.error(f"Error processing query: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=QUERY_PROCESSING_FAILURE_MESSAGE,
