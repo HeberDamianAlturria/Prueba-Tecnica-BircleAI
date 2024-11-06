@@ -22,6 +22,8 @@ Para la realización de este proyecto, se tomaron las siguientes decisiones:
 
 4. Se configuraron los CORS para permitir el acceso a la API desde cualquier origen. De esa manera, se puede acceder a la API desde cualquier frontend sin problemas.
 
+5. Se limitó para que solamente pueda cargar archivos de texto plano (.txt). Sin embargo, se puede modificar para que pueda cargar otros tipos de archivos simplemente modificando la constante `EXTENSION_FILES_ALLOWED` definida en el archivo `app/constants/llamaindex_constants.py`, aprovechando el hecho de que `SimpleDirectoryReader` permite tratar como texto plano otros tipos de archivos. Para más información, se puede leer la [Documentación de SimpleDirectoryReader](https://docs.llamaindex.ai/en/stable/module_guides/loading/simpledirectoryreader/#supported-file-types).
+
 ## Crear una API Key en Groq.
 
 Para poder crear una API Key en Groq, debemos seguir los siguientes pasos:

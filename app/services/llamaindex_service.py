@@ -4,17 +4,18 @@ from app.constants.llamaindex_constants import (
     GROQ_MODEL,
     EMBEDDING_MODEL,
     DATA_PATH,
+    EXTENSION_FILES_ALLOWED,
 )
 from llama_index.core import VectorStoreIndex, Settings, SimpleDirectoryReader, Document
 from llama_index.core.query_engine import BaseQueryEngine
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
-from llama_index.readers.file import FlatReader
 from os import getenv
 
 
 class _LlamaIndexSingleton:
     """Singleton class for managing Llama index."""
+
     _instance = None
     _index = None
 
@@ -32,12 +33,9 @@ class _LlamaIndexSingleton:
         Raises:
             ValueError: If no files are found in the directory or if the directory does not exist.
         """
-        parser = FlatReader()
-
-        file_extractor = {".txt": parser}
-
         documents = SimpleDirectoryReader(
-            input_dir=DATA_PATH, file_extractor=file_extractor
+            input_dir=DATA_PATH,
+            required_exts=EXTENSION_FILES_ALLOWED,
         ).load_data()
 
         return documents

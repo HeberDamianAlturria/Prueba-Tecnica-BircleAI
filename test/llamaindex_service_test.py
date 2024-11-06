@@ -95,7 +95,7 @@ def test_llama_index_singleton_instance():
 
 def test_configure_llm_no_api_key(llama_index_instance):
     """Test configure LLM without API key."""
-    with patch.dict(os.environ, {}):
+    with patch.dict(os.environ, {GROQ_API_KEY_ENV_VAR: ""}):
         with pytest.raises(RuntimeError, match=GROQ_API_KEY_ERROR):
             llama_index_instance._configure_llm()
 
